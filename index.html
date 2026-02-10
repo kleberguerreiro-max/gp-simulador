@@ -125,3 +125,30 @@ function whatsapp() {
   );
 }
 </script>
+<script>
+function simular() {
+  let limite = Number(document.getElementById("valor").value);
+
+  let select = document.getElementById("parcelas");
+  let taxa = Number(select.value);
+  let parcelas = Number(select.options[select.selectedIndex].text.split("x")[0]);
+
+  let recebido = limite / (1 + taxa / 100);
+  let parcela = limite / parcelas;
+
+  document.getElementById("resultado").innerHTML = `
+    <strong>Limite do cartão:</strong> R$ ${limite.toFixed(2)}<br>
+    <strong>Taxa aplicada:</strong> ${taxa}%<br>
+    <strong>Valor que recebe:</strong> R$ ${recebido.toFixed(2)}<br>
+    <strong>${parcelas}x de:</strong> R$ ${parcela.toFixed(2)}
+  `;
+}
+
+function whatsapp() {
+  let texto = document.getElementById("resultado").innerText;
+  window.open(
+    "https://wa.me/5579998758219?text=" + encodeURIComponent(texto),
+    "_blank"
+  );
+}
+</script>
