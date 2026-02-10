@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GP Empréstimos</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+<img src="logo.png" class="logo">
+
+<h2>Troque o limite por dinheiro na hora</h2>
+
+<input type="number" id="valor" placeholder="Valor desejado (R$)">
+<select id="parcelas"></select>
+
+<button onclick="simular()">Simular</button>
+
+<div id="resultado"></div>
+
+<button class="whats" onclick="enviarWhats()">Falar no WhatsApp</button>
+</div>
+
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('service-worker.js');
+}
+</script>
+
+</body>
+</html>
