@@ -79,75 +79,72 @@ index.html
   </div>
 
   <script>
-    function simular() {
-      let valor = Number(document.getElementById("valor").value);
-      let taxa = Number(document.getElementById("parcelas").value);
-      let total = valor + (valor * taxa / 100);
-      document.getElementById("resultado").innerText =
-        "Total com juros: R$ " + total.toFixed(2);
-    }
+ <script>
+const taxas = [
+  { p:1, t:8 }, { p:2, t:10 }, { p:3, t:11 },
+  { p:4, t:12 }, { p:5, t:12 }, { p:6, t:12 }, { p:7, t:12 },
+  { p:8, t:13 }, { p:9, t:13 },
+  { p:10, t:14 }, { p:11, t:15 }, { p:12, t:17 },
+  { p:13, t:17.5 }, { p:14, t:18 }, { p:15, t:18.5 },
+  { p:16, t:19 }, { p:17, t:19.5 }, { p:18, t:20 }
+];
 
-    function whatsapp() {
-      window.open("https://wa.me/5579998758219", "_blank");
-    }
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
-</script>
-  </script>
-</body>
-</html> 
-<!-- simulador ativo -->
-<script>
-function simular() {
+// 🔹 CENÁRIO 1 — QUERO RECEBER X
+function simularReceber() {
   let valor = Number(document.getElementById("valor").value);
+  if (!valor) return alert("Digite o valor desejado");
 
-  let parcelasSelect = document.getElementById("parcelas");
-  let taxa = Number(parcelasSelect.value);
-  let parcelas = Number(parcelasSelect.options[parcelasSelect.selectedIndex].text.split("x")[0]);
+  let html = `<strong>Quero receber R$ ${valor.toFixed(2)}</strong><br><br>
+  <table style="width:100%; border-collapse:collapse;">
+  <tr><th>Parcelas</th><th>Taxa</th><th>Passa no cartão</th><th>Parcela</th></tr>`;
 
-  let total = valor + (valor * taxa / 100);
-  let parcelaMensal = total / parcelas;
+  taxas.forEach(i => {
+    let cartao = valor * (1 + i.t / 100);
+    let parcela = cartao / i.p;
 
-  document.getElementById("resultado").innerHTML = `
-    <strong>Valor solicitado:</strong> R$ ${valor.toFixed(2)}<br>
-    <strong>Total com juros:</strong> R$ ${total.toFixed(2)}<br>
-    <strong>${parcelas}x de:</strong> R$ ${parcelaMensal.toFixed(2)}
-  `;
+    html += `
+      <tr>
+        <td>${i.p}x</td>
+        <td>${i.t}%</td>
+        <td>R$ ${cartao.toFixed(2)}</td>
+        <td>R$ ${parcela.toFixed(2)}</td>
+      </tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("resultado").innerHTML = html;
+}
+
+// 🔹 CENÁRIO 2 — TENHO LIMITE X
+function simularLimite() {
+  let limite = Number(document.getElementById("valor").value);
+  if (!limite) return alert("Digite o limite do cartão");
+
+  let html = `<strong>Tenho R$ ${limite.toFixed(2)} de limite</strong><br><br>
+  <table style="width:100%; border-collapse:collapse;">
+  <tr><th>Parcelas</th><th>Taxa</th><th>Recebe</th><th>Parcela</th></tr>`;
+
+  taxas.forEach(i => {
+    let recebe = limite / (1 + i.t / 100);
+    let parcela = limite / i.p;
+
+    html += `
+      <tr>
+        <td>${i.p}x</td>
+        <td>${i.t}%</td>
+        <td>R$ ${recebe.toFixed(2)}</td>
+        <td>R$ ${parcela.toFixed(2)}</td>
+      </tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("resultado").innerHTML = html;
 }
 
 function whatsapp() {
   window.open(
     "https://wa.me/5579998758219?text=" +
     encodeURIComponent(document.getElementById("resultado").innerText),
-    "_blank"
-  );
-}
-</script>
-<script>
-function simular() {
-  let limite = Number(document.getElementById("valor").value);
-
-  let select = document.getElementById("parcelas");
-  let taxa = Number(select.value);
-  let parcelas = Number(select.options[select.selectedIndex].text.split("x")[0]);
-
-  let recebido = limite / (1 + taxa / 100);
-  let parcela = limite / parcelas;
-
-  document.getElementById("resultado").innerHTML = `
-    <strong>Limite do cartão:</strong> R$ ${limite.toFixed(2)}<br>
-    <strong>Taxa aplicada:</strong> ${taxa}%<br>
-    <strong>Valor que recebe:</strong> R$ ${recebido.toFixed(2)}<br>
-    <strong>${parcelas}x de:</strong> R$ ${parcela.toFixed(2)}
-  `;
-}
-
-function whatsapp() {
-  let texto = document.getElementById("resultado").innerText;
-  window.open(
-    "https://wa.me/5579998758219?text=" + encodeURIComponent(texto),
     "_blank"
   );
 }
