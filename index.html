@@ -45,65 +45,94 @@ button {
 
 <body>
 <div class="box">
+  <input type="number" id="valor" placeholder="Digite o valor">
 
-<h3>Simulação rápida</h3>
+  <select id="parcelas">
+    <option value="12">12x – 17%</option>
+    <option value="18">18x – 20%</option>
+  </select>
 
-<input type="number" id="valor" placeholder="Digite o valor">
+  <button onclick="simularLimite()">Tenho esse limite</button>
+  <button onclick="simularReceber()">Quero receber esse valor</button>
 
-<select id="parcelas">
-  <option value="12">12x – 17%</option>
-  <option value="18">18x – 20%</option>
-</select>
+  <div id="resultado"></div>
 
-<button class="simular" onclick="simularLimite()">Tenho esse limite</button>
-<button class="simular" onclick="simularReceber()">Quero receber esse valor</button>
-
-<div class="resultado" id="resultado"></div>
-
-<button class="whats" onclick="whatsapp()">Falar no WhatsApp</button>
-
+  <button onclick="whatsapp()">Falar no WhatsApp</button>
 </div>
 
 <script>
 const taxas = {
-  12:17,
-  18:20
+  12: 17,
+  18: 20
 };
 
 let textoWhats = "";
 
+function mostrarResultado(html, texto) {
+  const res = document.getElementById("resultado");
+  res.innerHTML = html;
+  textoWhats = texto;
+
+  // 🔥 FORÇA O RESULTADO APARECER NO CELULAR
+  setTimeout(() => {
+    res.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 100);
+}
+
 function simularLimite() {
   let limite = Number(valor.value);
+  if (!limite) return alert("Digite o valor");
+
   let p = Number(parcelas.value);
   let taxa = taxas[p];
 
-  let recebe = limite / (1 + taxa/100);
+  let recebe = limite / (1 + taxa / 100);
   let parcela = limite / p;
 
-  textoWhats =
+  let texto = 
 `Tenho R$ ${limite.toFixed(2)} de limite
 ${p}x com taxa ${taxa}%
 Recebo: R$ ${recebe.toFixed(2)}
 Parcela: R$ ${parcela.toFixed(2)}`;
 
-  resultado.innerHTML = textoWhats.replaceAll("\n","<br>");
+  let html = `
+    <strong>Resultado da simulação</strong><br><br>
+    Limite do cartão: R$ ${limite.toFixed(2)}<br>
+    Parcelas: ${p}x<br>
+    Taxa: ${taxa}%<br>
+    <strong>Recebe:</strong> R$ ${recebe.toFixed(2)}<br>
+    <strong>Parcela:</strong> R$ ${parcela.toFixed(2)}
+  `;
+
+  mostrarResultado(html, texto);
 }
 
 function simularReceber() {
   let deseja = Number(valor.value);
+  if (!deseja) return alert("Digite o valor");
+
   let p = Number(parcelas.value);
   let taxa = taxas[p];
 
-  let cartao = deseja * (1 + taxa/100);
+  let cartao = deseja * (1 + taxa / 100);
   let parcela = cartao / p;
 
-  textoWhats =
+  let texto =
 `Quero receber R$ ${deseja.toFixed(2)}
 ${p}x com taxa ${taxa}%
 Passa no cartão: R$ ${cartao.toFixed(2)}
 Parcela: R$ ${parcela.toFixed(2)}`;
 
-  resultado.innerHTML = textoWhats.replaceAll("\n","<br>");
+  let html = `
+    <strong>Resultado da simulação</strong><br><br>
+    Valor desejado: R$ ${deseja.toFixed(2)}<br>
+    Parcelas: ${p}x<br>
+    Taxa: ${taxa}%<br>
+    <strong>Passa no cartão:</strong> R$ ${cartao.toFixed(2)}<br>
+    <strong>Parcela:</strong> R$ ${parcela.toFixed(2)}
+  `;
+
+  mostrarResultado(html, texto);
 }
 
 function whatsapp() {
@@ -114,6 +143,7 @@ function whatsapp() {
   );
 }
 </script>
+
 </body>
 </html>
 
