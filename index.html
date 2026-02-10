@@ -1,95 +1,26 @@
-index.html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Simulador de Cartão - GP Promotora</title>
+<script>
+function simular() {
+  let valor = Number(document.getElementById("valor").value);
 
-  <link rel="manifest" href="manifest.json">
+  let parcelasSelect = document.getElementById("parcelas");
+  let taxa = Number(parcelasSelect.value);
+  let parcelas = Number(parcelasSelect.options[parcelasSelect.selectedIndex].text.split("x")[0]);
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      margin: 0;
-      padding: 20px;
-    }
-    .card {
-      max-width: 420px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,.1);
-    }
-    h1 {
-      text-align: center;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    button {
-      background: #0a7cff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    .resultado {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-  </style>
-</head>
+  let total = valor + (valor * taxa / 100);
+  let parcelaMensal = total / parcelas;
 
-<body>
-  <div class="card">
-    <h1>Simulador Cartão</h1>
+  document.getElementById("resultado").innerHTML = `
+    <strong>Valor solicitado:</strong> R$ ${valor.toFixed(2)}<br>
+    <strong>Total com juros:</strong> R$ ${total.toFixed(2)}<br>
+    <strong>${parcelas}x de:</strong> R$ ${parcelaMensal.toFixed(2)}
+  `;
+}
 
-    <label>Valor desejado</label>
-    <input type="number" id="valor" placeholder="Ex: 1000">
-
-    <label>Parcelas</label>
-    <select id="parcelas">
-      <option value="8">1x – 8%</option>
-      <option value="10">2x – 10%</option>
-      <option value="11">3x – 11%</option>
-      <option value="12">4x a 7x – 12%</option>
-      <option value="13">8x a 9x – 13%</option>
-      <option value="14">10x – 14%</option>
-      <option value="15">11x – 15%</option>
-      <option value="17">12x – 17%</option>
-      <option value="17.5">13x – 17,5%</option>
-      <option value="18">14x – 18%</option>
-      <option value="18.5">15x – 18,5%</option>
-      <option value="19">16x – 19%</option>
-      <option value="19.5">17x – 19,5%</option>
-      <option value="20">18x – 20%</option>
-    </select>
-
-    <button onclick="simular()">Simular</button>
-
-    <div class="resultado" id="resultado"></div>
-
-    <button onclick="whatsapp()">Falar no WhatsApp</button>
-  </div>
-
-  <script>
-    function simular() {
-      let valor = Number(document.getElementById("valor").value);
-      let taxa = Number(document.getElementById("parcelas").value);
-      let total = valor + (valor * taxa / 100);
-      document.getElementById("resultado").innerText =
-        "Total com juros: R$ " + total.toFixed(2);
-    }
-
-    function whatsapp() {
-      window.open("https://wa.me/5579998758219", "_blank");
-    }
-  </script>
-</body>
-</html> 
-<!-- simulador ativo -->
+function whatsapp() {
+  window.open(
+    "https://wa.me/5579998758219?text=" +
+    encodeURIComponent(document.getElementById("resultado").innerText),
+    "_blank"
+  );
+}
+</script>
