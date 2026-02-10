@@ -1,3 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador WhatsApp – GP Empréstimos</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 20px;
+}
+.box {
+  max-width: 420px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: auto;
+}
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+button {
+  border: none;
+  border-radius: 6px;
+}
+.simular {
+  background: #0b2cff;
+  color: #fff;
+}
+.whats {
+  background: #25d366;
+  color: #fff;
+}
+.resultado {
+  margin-top: 15px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+<div class="box">
+
+<h3>Simulação rápida</h3>
+
+<input type="number" id="valor" placeholder="Digite o valor">
+
+<select id="parcelas">
+  <option value="12">12x – 17%</option>
+  <option value="18">18x – 20%</option>
+</select>
+
+<button class="simular" onclick="simularLimite()">Tenho esse limite</button>
+<button class="simular" onclick="simularReceber()">Quero receber esse valor</button>
+
+<div class="resultado" id="resultado"></div>
+
+<button class="whats" onclick="whatsapp()">Falar no WhatsApp</button>
+
+</div>
+
+<script>
+const taxas = {
+  12:17,
+  18:20
+};
+
+let textoWhats = "";
+
+function simularLimite() {
+  let limite = Number(valor.value);
+  let p = Number(parcelas.value);
+  let taxa = taxas[p];
+
+  let recebe = limite / (1 + taxa/100);
+  let parcela = limite / p;
+
+  textoWhats =
+`Tenho R$ ${limite.toFixed(2)} de limite
+${p}x com taxa ${taxa}%
+Recebo: R$ ${recebe.toFixed(2)}
+Parcela: R$ ${parcela.toFixed(2)}`;
+
+  resultado.innerHTML = textoWhats.replaceAll("\n","<br>");
+}
+
+function simularReceber() {
+  let deseja = Number(valor.value);
+  let p = Number(parcelas.value);
+  let taxa = taxas[p];
+
+  let cartao = deseja * (1 + taxa/100);
+  let parcela = cartao / p;
+
+  textoWhats =
+`Quero receber R$ ${deseja.toFixed(2)}
+${p}x com taxa ${taxa}%
+Passa no cartão: R$ ${cartao.toFixed(2)}
+Parcela: R$ ${parcela.toFixed(2)}`;
+
+  resultado.innerHTML = textoWhats.replaceAll("\n","<br>");
+}
+
+function whatsapp() {
+  window.open(
+    "https://wa.me/5579998758219?text=" +
+    encodeURIComponent(textoWhats),
+    "_blank"
+  );
+}
+</script>
+</body>
+</html>
+
 index.html
 <!DOCTYPE html>
 <html lang="pt-BR">
