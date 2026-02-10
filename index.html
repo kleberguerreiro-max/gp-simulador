@@ -3,211 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulador WhatsApp – GP Empréstimos</title>
+
+<title>Simulador de Cartão - GP Empréstimos</title>
 
 <style>
 body {
   font-family: Arial, sans-serif;
   background: #f2f2f2;
-  padding: 20px;
+  padding: 15px;
 }
-.box {
-  max-width: 420px;
+
+.card {
+  max-width: 500px;
   background: #fff;
   padding: 20px;
-  border-radius: 10px;
   margin: auto;
+  border-radius: 10px;
 }
-input, select, button {
+
+input, button {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
   font-size: 16px;
 }
+
 button {
+  background: #0b2cff;
+  color: #fff;
   border: none;
   border-radius: 6px;
 }
-.simular {
-  background: #0b2cff;
-  color: #fff;
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
-.whats {
-  background: #25d366;
-  color: #fff;
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: center;
+  font-size: 14px;
 }
-.resultado {
-  margin-top: 15px;
-  font-weight: bold;
+
+th {
+  background: #f0f0f0;
 }
 </style>
 </head>
 
 <body>
-<div class="box">
-  <input type="number" id="valor" placeholder="Digite o valor">
 
-  <select id="parcelas">
-    <option value="12">12x – 17%</option>
-    <option value="18">18x – 20%</option>
-  </select>
+<div class="card">
 
-  <button onclick="simularLimite()">Tenho esse limite</button>
-  <button onclick="simularReceber()">Quero receber esse valor</button>
+  <img src="logo.png" style="max-width:160px; display:block; margin:0 auto 10px;">
+
+  <h2 style="text-align:center;">Simulador de Cartão</h2>
+
+  <label>Valor de referência (R$)</label>
+  <input type="number" id="valor" placeholder="Ex: 2000">
+
+  <button onclick="simular()">Simular</button>
 
   <div id="resultado"></div>
 
-  <button onclick="whatsapp()">Falar no WhatsApp</button>
 </div>
 
 <script>
-const taxas = {
-  12: 17,
-  18: 20
-};
-
-let textoWhats = "";
-
-function mostrarResultado(html, texto) {
-  const res = document.getElementById("resultado");
-  res.innerHTML = html;
-  textoWhats = texto;
-
-  // 🔥 FORÇA O RESULTADO APARECER NO CELULAR
-  setTimeout(() => {
-    res.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 100);
-}
-
-function simularLimite() {
-  let limite = Number(valor.value);
-  if (!limite) return alert("Digite o valor");
-
-  let p = Number(parcelas.value);
-  let taxa = taxas[p];
-
-  let recebe = limite / (1 + taxa / 100);
-  let parcela = limite / p;
-
-  let texto = 
-`Tenho R$ ${limite.toFixed(2)} de limite
-${p}x com taxa ${taxa}%
-Recebo: R$ ${recebe.toFixed(2)}
-Parcela: R$ ${parcela.toFixed(2)}`;
-
-  let html = `
-    <strong>Resultado da simulação</strong><br><br>
-    Limite do cartão: R$ ${limite.toFixed(2)}<br>
-    Parcelas: ${p}x<br>
-    Taxa: ${taxa}%<br>
-    <strong>Recebe:</strong> R$ ${recebe.toFixed(2)}<br>
-    <strong>Parcela:</strong> R$ ${parcela.toFixed(2)}
-  `;
-
-  mostrarResultado(html, texto);
-}
-
-function simularReceber() {
-  let deseja = Number(valor.value);
-  if (!deseja) return alert("Digite o valor");
-
-  let p = Number(parcelas.value);
-  let taxa = taxas[p];
-
-  let cartao = deseja * (1 + taxa / 100);
-  let parcela = cartao / p;
-
-  let texto =
-`Quero receber R$ ${deseja.toFixed(2)}
-${p}x com taxa ${taxa}%
-Passa no cartão: R$ ${cartao.toFixed(2)}
-Parcela: R$ ${parcela.toFixed(2)}`;
-
-  let html = `
-    <strong>Resultado da simulação</strong><br><br>
-    Valor desejado: R$ ${deseja.toFixed(2)}<br>
-    Parcelas: ${p}x<br>
-    Taxa: ${taxa}%<br>
-    <strong>Passa no cartão:</strong> R$ ${cartao.toFixed(2)}<br>
-    <strong>Parcela:</strong> R$ ${parcela.toFixed(2)}
-  `;
-
-  mostrarResultado(html, texto);
-}
-
-function whatsapp() {
-  window.open(
-    "https://wa.me/5579998758219?text=" +
-    encodeURIComponent(textoWhats),
-    "_blank"
-  );
-}
-</script>
-
-</body>
-</html>
-
-</script>
-</body>
-</html>
-
-  </style>
-</head>
-
-<body>
-  <div class="card">
-<img src="logo.png" alt="GP Empréstimos" style="max-width:180px; display:block; margin:0 auto 15px;">
-    <h1>Simulador Cartão</h1>
-
-    <label>Valor desejado</label>
-    <input type="number" id="valor" placeholder="Ex: 1000">
-
-    <label>Parcelas</label>
-    <select id="parcelas">
-      <option value="8">1x – 8%</option>
-      <option value="10">2x – 10%</option>
-      <option value="11">3x – 11%</option>
-      <option value="12">4x a 7x – 12%</option>
-      <option value="13">8x a 9x – 13%</option>
-      <option value="14">10x – 14%</option>
-      <option value="15">11x – 15%</option>
-      <option value="17">12x – 17%</option>
-      <option value="17.5">13x – 17,5%</option>
-      <option value="18">14x – 18%</option>
-      <option value="18.5">15x – 18,5%</option>
-      <option value="19">16x – 19%</option>
-      <option value="19.5">17x – 19,5%</option>
-      <option value="20">18x – 20%</option>
-    </select>
-
-    <button onclick="simular()">Simular</button>
-
-    <div class="resultado" id="resultado"></div>
-<button onclick="simularReceber()">Quero receber esse valor</button>
-<button onclick="simularLimite()">Tenho esse limite no cartão</button>
-
-    <button onclick="whatsapp()">Falar no WhatsApp</button>
-  </div>
-
-  <script>
- <script>
 const taxas = [
-  { p:1, t:8 }, { p:2, t:10 }, { p:3, t:11 },
-  { p:4, t:12 }, { p:5, t:12 }, { p:6, t:12 }, { p:7, t:12 },
-  { p:8, t:13 }, { p:9, t:13 },
-  { p:10, t:14 }, { p:11, t:15 }, { p:12, t:17 },
-  { p:13, t:17.5 }, { p:14, t:18 }, { p:15, t:18.5 },
-  { p:16, t:19 }, { p:17, t:19.5 }, { p:18, t:20 }
+  {p:1, t:8}, {p:2, t:10}, {p:3, t:11},
+  {p:4, t:12}, {p:5, t:12}, {p:6, t:12}, {p:7, t:12},
+  {p:8, t:13}, {p:9, t:13},
+  {p:10, t:14}, {p:11, t:15},
+  {p:12, t:17}, {p:13, t:17.5},
+  {p:14, t:18}, {p:15, t:18.5},
+  {p:16, t:19}, {p:17, t:19.5}, {p:18, t:20}
 ];
 
-// 🔹 CENÁRIO 1 — QUERO RECEBER X
-function simularReceber() {
+function simular() {
   let valor = Number(document.getElementById("valor").value);
-  if (!valor) return alert("Digite o valor desejado");
+  if (!valor) {
+    alert("Digite um valor");
+    return;
+  }
 
-  let html = `<strong>Quero receber R$ ${valor.toFixed(2)}</strong><br><br>
-  <table style="width:100%; border-collapse:collapse;">
-  <tr><th>Parcelas</th><th>Taxa</th><th>Passa no cartão</th><th>Parcela</th></tr>`;
+  let html = "";
+
+  html += `<h3>Tenho R$ ${valor.toFixed(2)} no cartão, quanto recebo?</h3>`;
+  html += `<table>
+    <tr>
+      <th>Parcelas</th>
+      <th>Taxa</th>
+      <th>Recebe (R$)</th>
+      <th>Parcela (R$)</th>
+    </tr>`;
+
+  taxas.forEach(i => {
+    let recebe = valor / (1 + i.t / 100);
+    let parcela = valor / i.p;
+
+    html += `
+      <tr>
+        <td>${i.p}x</td>
+        <td>${i.t}%</td>
+        <td>${recebe.toFixed(2)}</td>
+        <td>${parcela.toFixed(2)}</td>
+      </tr>`;
+  });
+
+  html += `</table>`;
+
+  html += `<h3>Quero receber R$ ${valor.toFixed(2)}, quanto passo no cartão?</h3>`;
+  html += `<table>
+    <tr>
+      <th>Parcelas</th>
+      <th>Taxa</th>
+      <th>Passa no cartão (R$)</th>
+      <th>Parcela (R$)</th>
+    </tr>`;
 
   taxas.forEach(i => {
     let cartao = valor * (1 + i.t / 100);
@@ -217,39 +132,16 @@ function simularReceber() {
       <tr>
         <td>${i.p}x</td>
         <td>${i.t}%</td>
-        <td>R$ ${cartao.toFixed(2)}</td>
-        <td>R$ ${parcela.toFixed(2)}</td>
+        <td>${cartao.toFixed(2)}</td>
+        <td>${parcela.toFixed(2)}</td>
       </tr>`;
   });
 
-  html += "</table>";
+  html += `</table>`;
+
   document.getElementById("resultado").innerHTML = html;
 }
+</script>
 
-// 🔹 CENÁRIO 2 — TENHO LIMITE X
-function simularLimite() {
-  let limite = Number(document.getElementById("valor").value);
-  if (!limite) return alert("Digite o limite do cartão");
-
-  let html = `<strong>Tenho R$ ${limite.toFixed(2)} de limite</strong><br><br>
-  <table style="width:100%; border-collapse:collapse;">
-  <tr><th>Parcelas</th><th>Taxa</th><th>Recebe</th><th>Parcela</th></tr>`;
-
-  taxas.forEach(i => {
-    let recebe = limite / (1 + i.t / 100);
-    let parcela = limite / i.p;
-
-    html += `
-      <tr>
-        <td>${i.p}x</td>
-        <td>${i.t}%</td>
-        <td>R$ ${recebe.toFixed(2)}</td>
-        <td>R$ ${parcela.toFixed(2)}</td>
-      </tr>`;
-  });
-
-  html += "</table>";
-  document.getElementById("resultado").innerHTML = html;
-}
-
-}
+</body>
+</html>
