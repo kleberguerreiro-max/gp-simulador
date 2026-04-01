@@ -113,9 +113,9 @@ function simular() {
   html += </table>;
 
   // TABELA 2
-  html += <h3>Quero receber R$ ${valor.toFixed(2)}, quanto passo?</h3>;
-  html += <table border="1" style="width:100%; text-align:center; margin-top:10px;">;
-  html += <tr><th>Parcelas</th><th>Taxa</th><th>Passa</th><th>Parcela</th></tr>;
+ html += <h3>Tenho R$ ${valor.toFixed(2)} no cartão, quanto recebo?</h3>;
+ html += <table border="1" style="width:100%; text-align:center; margin-top:10px;">;
+ html += <tr><th>Parcelas</th><th>Taxa</th><th>Passa</th><th>Parcela</th></tr>;
 
   taxas.forEach(i => {
     let cartao = valor * (1 + i.t / 100);
