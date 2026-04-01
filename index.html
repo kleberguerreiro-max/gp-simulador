@@ -2,8 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulador de Cartão - GP Empréstimos</title>
 
 <style>
@@ -45,7 +44,6 @@ th, td {
   border: 1px solid #ddd;
   padding: 6px;
   text-align: center;
-  font-size: 14px;
 }
 
 th {
@@ -58,16 +56,16 @@ th {
 
 <div class="card">
 
-  <img src="logo.png" style="max-width:160px; display:block; margin:0 auto 10px;">
+<img src="logo.png" style="max-width:160px; display:block; margin:auto;">
 
-  <h2 style="text-align:center;">Simulador de Cartão</h2>
+<h2 style="text-align:center;">Simulador de Cartão</h2>
 
-  <label>Valor de referência (R$)</label>
-  <input type="number" id="valor" placeholder="Ex: 2000">
+<label>Valor de referência (R$)</label>
+<input type="number" id="valor" placeholder="Ex: 2000">
 
-  <button onclick="simular()">Simular</button>
+<button onclick="simular()">Simular</button>
 
-  <div id="resultado"></div>
+<div id="resultado"></div>
 
 </div>
 
@@ -93,9 +91,9 @@ function simular() {
   let html = "";
 
   // TABELA 1
-  html += <h3>Tenho R$ ${valor.toFixed(2)} no cartão, quanto recebo?</h3>;
-  html += <table border="1" style="width:100%; text-align:center; margin-top:10px;">;
-  html += <tr><th>Parcelas</th><th>Taxa</th><th>Recebe</th><th>Parcela</th></tr>;
+  html += `<h3>Tenho R$ ${valor.toFixed(2)} no cartão, quanto recebo?</h3>`;
+  html += `<table>`;
+  html += `<tr><th>Parcelas</th><th>Taxa</th><th>Recebe</th><th>Parcela</th></tr>`;
 
   taxas.forEach(i => {
     let recebe = valor / (1 + i.t / 100);
@@ -107,15 +105,16 @@ function simular() {
         <td>${i.t}%</td>
         <td>R$ ${recebe.toFixed(2)}</td>
         <td>R$ ${parcela.toFixed(2)}</td>
-      </tr>`;
+      </tr>
+    `;
   });
 
-  html += </table>;
+  html += `</table>`;
 
   // TABELA 2
- html += <h3>Tenho R$ ${valor.toFixed(2)} no cartão, quanto recebo?</h3>;
- html += <table border="1" style="width:100%; text-align:center; margin-top:10px;">;
- html += <tr><th>Parcelas</th><th>Taxa</th><th>Passa</th><th>Parcela</th></tr>;
+  html += `<h3>Quero receber R$ ${valor.toFixed(2)}, quanto passo?</h3>`;
+  html += `<table>`;
+  html += `<tr><th>Parcelas</th><th>Taxa</th><th>Passa</th><th>Parcela</th></tr>`;
 
   taxas.forEach(i => {
     let cartao = valor * (1 + i.t / 100);
@@ -127,13 +126,15 @@ function simular() {
         <td>${i.t}%</td>
         <td>R$ ${cartao.toFixed(2)}</td>
         <td>R$ ${parcela.toFixed(2)}</td>
-      </tr>`;
+      </tr>
+    `;
   });
 
-  html += </table>;
+  html += `</table>`;
 
   document.getElementById("resultado").innerHTML = html;
 }
 </script>
+
 </body>
 </html>
